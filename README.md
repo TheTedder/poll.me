@@ -1,24 +1,9 @@
-# README
+# poll.me
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+[![Codeship Status for TheTedder/poll.me](https://app.codeship.com/projects/00df0c20-dba9-0137-3ebd-5e8489b72046/status?branch=master)](https://app.codeship.com/projects/371445)
 
-Things you may want to cover:
+## Depdendencies
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* Ruby 2.6.5
+* PostgreSQL 11
+* Yarn 1.19
