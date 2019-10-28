@@ -4,6 +4,8 @@ import Adapter from 'enzyme-adapter-react-16'
 
 import PollsIndex from './PollsIndex'
 
+configure({ adapter: new Adapter() })
+
 describe('<PollsIndex />', () => {
   let wrapper
 
