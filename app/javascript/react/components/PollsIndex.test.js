@@ -1,3 +1,4 @@
+import 'jest-enzyme'
 import React from 'react'
 import { mount, configure } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
@@ -16,6 +17,7 @@ describe('<PollsIndex />', () => {
   })
 
   it('should render a button with the text "Create a Poll"', () => {
-    expect(wrapper.find('a.button.new-poll-button')).toExist()
+    expect(wrapper).toContainMatchingElement('a.button.new-poll-button')
+    expect(wrapper.find('a.button.new-poll-button')).toHaveText('Create New Poll')
   })
 })
