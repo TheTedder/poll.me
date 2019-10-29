@@ -1,5 +1,6 @@
 import 'jest-enzyme'
 import React from 'react'
+import {BrowserRouter as Router} from 'react-router-dom'
 import { mount, configure } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
@@ -12,7 +13,9 @@ describe('<PollsIndex />', () => {
 
   beforeEach( () => {
     wrapper = mount(
-      <PollsIndex />
+      <Router>
+        <PollsIndex />
+      </Router>
     )
   })
 
