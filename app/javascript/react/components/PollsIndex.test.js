@@ -19,8 +19,10 @@ describe('<PollsIndex />', () => {
     )
   })
 
-  it('should render a button with the text "Create a Poll"', () => {
+  it('should render a button with the text "Create a Poll" that leads to the new page', () => {
     expect(wrapper).toContainMatchingElement('a.button.new-poll-button')
-    expect(wrapper.find('a.button.new-poll-button')).toHaveText('Create New Poll')
+    let button = wrapper.find('a.button.new-poll-button')
+    expect(button).toHaveText('Create New Poll')
+    expect(button.prop('href')).toBe('/new')
   })
 })
