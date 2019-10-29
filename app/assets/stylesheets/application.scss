@@ -10,15 +10,13 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require_tree .
  *= require foundation_and_overrides
+ *= require_tree .
  *= require_self
  */
  @import url('https://fonts.googleapis.com/css?family=Nunito&display=swap');
  
  $my-white: #f2f2f2;
- $my-blue: #1eb4ff;
- $my-red: #f2421f;
 
 .title {
   font-family: 'Nunito', sans-serif;

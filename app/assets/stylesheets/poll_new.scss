@@ -1,0 +1,18 @@
+@import 'foundation';
+@import 'settings';
+@import 'util/util';
+@import 'util/color';
+@include add-foundation-colors;
+
+textarea.poll-description-field {
+  background-color: scale-color($primary-color, $lightness: 50%);
+  outline: none;
+}
+
+textarea.poll-description-field::placeholder {
+  color: dimgray;
+}
+
+textarea:focus {
+  outline: none;
+}
