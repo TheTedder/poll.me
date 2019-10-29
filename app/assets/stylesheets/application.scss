@@ -39,3 +39,8 @@ input.stealth-input:focus {
 input.big-input {
   font-size: 2rem;
 }
+
+textarea {
+  resize: none;
+  height: 4rem;
+}

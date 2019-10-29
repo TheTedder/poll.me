@@ -4,32 +4,58 @@ const PollsNew = (props) => {
   const [newPoll, setNewPoll] = useState(
     {
       name: "New Poll",
-      description: ""
+      description: "",
+      options: ["", "", "", ""]
     }
   )
 
   const handleChange = (event) => {
-    setNewPoll(
-      {
-        ...newPoll,
-        [event.currentTarget.name]: event.currentTarget.value
-      }
-    )
+    if (event.currentTarget.name === "option"){
+      let newOptions = newPoll.options
+      newOptions[Number.parseInt(event.currentTarget.getAttribute('optionid'))] = event.currentTarget.value
+      setNewPoll(
+        {
+          ...newPoll,
+          options: newOptions
+        }
+      )
+    } else{
+      setNewPoll(
+        {
+          ...newPoll,
+          [event.currentTarget.name]: event.currentTarget.value
+        }
+      )
+    }
   }
+
+  let options = [0, 1, 2, 3].map( (num) => {
+    return (
+      <li key={num} className="poll-option-item">
+        <div className="grid-x">
+          <input type="text" className="cell medium-9 large-6 poll-option-field" placeholder={`Option #${num + 1}`} name="option" optionid={num} value={newPoll.options[num]} onChange={handleChange} />
+        </div>
+      </li>
+    )
+  })
 
   return (
     <div className="grid-padding-y">
-      <div className="grid-x grid-padding-x cell">
-        <div className="primary cell small-12 medium-8 medium-offset-2">
+      <div className="grid-x grid-padding-x cell align-center">
+        <div className="primary cell small-12 medium-7">
           <div className="primary callout">
             <form action="#" onSubmit={event => event.preventDefault()}>
               <div className="grid-container">
-                <div className="cell grid-x grid-padding-x">
+                <div className="grid-x grid-padding-x">
                   <input className="poll-name-field cell small-12 medium-6 large-3 title big-input primary stealth-input" type="text" name="name" value={newPoll.name} autoFocus onChange={handleChange}/>
                 </div>
-                <div className="cell grid-x grid-padding-x">
+
+                <div className="grid-x grid-padding-x">
                   <textarea className="poll-description-field cell large-9" name="description" value={newPoll.description} placeholder="description here" onChange={handleChange} />
                 </div>
+                <ul>
+                  {options}
+                </ul>
               </div>
             </form>
           </div>

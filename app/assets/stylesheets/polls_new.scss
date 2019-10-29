@@ -16,3 +16,11 @@ textarea.poll-description-field::placeholder {
 textarea:focus {
   outline: none;
 }
+
+input.poll-option-field {
+  display: inline;
+}
+
+input.poll-option-field::placeholder {
+  color: dimgray;
+}

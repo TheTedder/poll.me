@@ -18,10 +18,14 @@ describe('<PollsNew />', () => {
   })
 
   it('should render a name text field with "New Poll" by default', () => {
-    expect(wrapper).toContainMatchingElement('input[type="text"][value="New Poll"]')
+    expect(wrapper).toContainMatchingElement('input[type="text"][name="name"][value="New Poll"]')
   })
 
   it('should render a text area with a name of description', () => {
     expect(wrapper).toContainMatchingElement('textarea[name="description"]')
+  })
+
+  it('should render some text fields where options can be entered', () => {
+    expect(wrapper.find('li input[type="text"]').length).toBeGreaterThan(2)
   })
 })
