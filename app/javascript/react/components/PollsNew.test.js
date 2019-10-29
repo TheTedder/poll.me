@@ -28,4 +28,8 @@ describe('<PollsNew />', () => {
   it('should render some text fields where options can be entered', () => {
     expect(wrapper.find('li input[type="text"]').length).toBeGreaterThan(2)
   })
+
+  it('should render a submit button', () => {
+    expect(wrapper).toContainMatchingElement('input[type="submit"][value="Create Poll"]')
+  })
 })

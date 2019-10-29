@@ -5,7 +5,7 @@ const PollsNew = (props) => {
     {
       name: "New Poll",
       description: "",
-      options: ["", "", "", ""]
+      options: ["", ""]
     }
   )
 
@@ -29,11 +29,30 @@ const PollsNew = (props) => {
     }
   }
 
-  let options = [0, 1, 2, 3].map( (num) => {
+  if (newPoll.options[newPoll.options.length - 1] !== ""){
+    setNewPoll(
+      {
+        ...newPoll,
+        options: newPoll.options.concat("")
+      }
+    )
+  }
+
+  if (newPoll.options[newPoll.options.length - 2] === "" && newPoll.options.length > 2){
+    setNewPoll(
+      {
+        ...newPoll,
+        options: newPoll.options.slice(0,newPoll.options.length - 1)
+      }
+    )
+  }
+
+
+  let options = newPoll.options.map( (option, index) => {
     return (
-      <li key={num} className="poll-option-item">
+      <li key={index} className="poll-option-item">
         <div className="grid-x">
-          <input type="text" className="cell medium-9 large-6 poll-option-field" placeholder={`Option #${num + 1}`} name="option" optionid={num} value={newPoll.options[num]} onChange={handleChange} />
+          <input type="text" className="cell medium-9 large-6 poll-option-field" placeholder={`Option #${index + 1}`} name="option" optionid={index} value={option} onChange={handleChange} />
         </div>
       </li>
     )
@@ -56,6 +75,9 @@ const PollsNew = (props) => {
                 <ul>
                   {options}
                 </ul>
+                <div className=" text-center">
+                  <input type="submit" className="title button secondary" value="Create Poll" />
+                </div>
               </div>
             </form>
           </div>
