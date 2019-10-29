@@ -24,3 +24,20 @@
   font-family: 'Nunito', sans-serif;
   font-weight: bold;
 }
+
+input.stealth-input {
+  border: none;
+  background-color: inherit;
+  color: $my-white;
+  outline: none;
+}
+
+input.stealth-input:focus {
+  border: none;
+  background-color: default;
+  color: inherit;
+}
+
+input.big-input {
+  font-size: 2rem;
+}
