@@ -5,7 +5,6 @@ import { mount, configure } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
 import PollsNew from './PollsNew'
-import expectExport from 'expect'
 
 configure({ adapter: new Adapter() })
 
