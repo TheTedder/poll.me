@@ -56,15 +56,12 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
       zeitwerk (~> 2.1, >= 2.1.8)
-<<<<<<< HEAD
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
-=======
     babel-source (5.8.35)
     babel-transpiler (0.7.0)
       babel-source (>= 4.0, < 6)
       execjs (~> 2.0)
->>>>>>> 6c677610dc794a33c69f20df859ce16eb644a8e8
     bindex (0.8.1)
     bootsnap (1.4.5)
       msgpack (~> 1.0)
@@ -217,11 +214,8 @@ PLATFORMS
 DEPENDENCIES
   bootsnap (>= 1.4.2)
   byebug
-<<<<<<< HEAD
   capybara
-=======
   foundation-rails (~> 6.5.3)
->>>>>>> 6c677610dc794a33c69f20df859ce16eb644a8e8
   jbuilder (~> 2.7)
   pg (>= 0.18, < 2.0)
   puma (~> 3.11)
