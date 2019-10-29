@@ -18,41 +18,8 @@
  $my-white: #f2f2f2;
  $my-blue: #1eb4ff;
  $my-red: #f2421f;
- $accent1: rgb(255, 189, 145);
- $accent2: #4C3A26;
 
  .title {
   font-family: 'Nunito', sans-serif;
   font-weight: 800;
- }
-
- .red {
-   background-color: $my-red;
-   color: white;
- }
-
- .button {
-  border-radius: 0.5rem;
-  line-height: 1.5rem;
-  padding: 0.5rem;
-  text-align: center;
-  margin: 0.25rem;
- }
-
- a {
-   text-decoration: none;
-   color: inherit;
- }
-
- .big {
-   font-size: 2rem;
-   padding: 1rem;
- }
-
- div.grid {
-   display: grid
- }
-
- .text-center {
-   text-align: center;
  }
