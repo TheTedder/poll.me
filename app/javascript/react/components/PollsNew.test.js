@@ -25,8 +25,8 @@ describe('<PollsNew />', () => {
     expect(wrapper).toContainMatchingElement('textarea[name="description"]')
   })
 
-  it('should render some text fields where options can be entered', () => {
-    expect(wrapper.find('li input[type="text"]').length).toBeGreaterThan(2)
+  it('should render 2 text fields where options can be entered', () => {
+    expect(wrapper.find('li input[type="text"]').length).toBe(2)
   })
 
   it('should render a submit button', () => {
