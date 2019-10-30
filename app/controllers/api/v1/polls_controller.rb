@@ -13,6 +13,10 @@ class Api::V1::PollsController < ApplicationController
     render json: {errors: poll.errors}
   end
 
+  def show 
+    render json: Poll.find(params['id'])
+  end
+
   private
   def poll_params
     params.require(:poll).permit(:name, :description)
