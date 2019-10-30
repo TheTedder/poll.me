@@ -2,12 +2,15 @@ class Api::V1::PollsController < ApplicationController
   def create
     poll = Poll.new(poll_params)
     if poll.save
-      params['poll']['options'].each do |text|
-        Candidate.create(name: text, poll: poll)
+      params['poll']['options'].each do |option|
+        Candidate.create(name: option, poll: poll)
       end
-    else
-      render json: {errors: poll.errors}
+      if poll.valid?
+        render json: {id: poll.id}
+        return
+      end
     end
+    render json: {errors: poll.errors}
   end
 
   private

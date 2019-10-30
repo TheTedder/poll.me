@@ -55,17 +55,14 @@ const PollsNew = (props) => {
         throw new Error(`${response.status} (${response.statusText})`)
       }
     })
-    .then( (response) => {
-      if (response.status !== 204){
-        return response.json()
-      } else{
-        setRedirect(true)
-      }
-    })
+    .then( (response) => response.json() )
     .then( (json) => {
       if (json){
         if (json.errors){
           setErrors(json.errors)
+        }
+        if (json.id){
+          setRedirect(json.id)
         }
       }
     })
@@ -101,7 +98,7 @@ const PollsNew = (props) => {
 
   return (
     <div className="grid-padding-y">
-      {redirect ? <Redirect to="/" /> : null}
+      {redirect ? <Redirect to={`/${redirect}`} /> : null}
       <div className="grid-x grid-padding-x cell align-center">
         <div className="primary cell small-12 medium-7">
           <div className="primary callout">
