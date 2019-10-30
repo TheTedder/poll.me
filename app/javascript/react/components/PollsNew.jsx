@@ -31,7 +31,7 @@ const PollsNew = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    fetch('/', {
+    fetch('/api/v1/polls', {
       method: 'POST',
       headers: new Headers(
         {
@@ -39,8 +39,12 @@ const PollsNew = (props) => {
           'Content-Type': 'application/json'
         }
       ),
-      body: JSON.stringify(newPoll),
-      credentials: 'same-origin'
+      body: JSON.stringify(
+        {
+          poll: newPoll
+        }
+      ),
+      credentials: 'include'
     })
   }
 
