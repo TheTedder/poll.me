@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Redirect } from 'react-router-dom'
 
 const PollsNew = (props) => {
   const [newPoll, setNewPoll] = useState(
@@ -8,6 +9,8 @@ const PollsNew = (props) => {
       options: ["", ""]
     }
   )
+  const [errors, setErrors] = useState({})
+  const [redirect, setRedirect] = useState(null)
 
   const handleChange = (event) => {
     if (event.currentTarget.name === "option"){
@@ -29,6 +32,42 @@ const PollsNew = (props) => {
     }
   }
 
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    fetch('/api/v1/polls', {
+      method: 'POST',
+      headers: new Headers(
+        {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      ),
+      body: JSON.stringify(
+        {
+          poll: newPoll
+        }
+      )
+    })
+    .then( (response) => {
+      if (response.ok){
+        return response
+      } else{
+        throw new Error(`${response.status} (${response.statusText})`)
+      }
+    })
+    .then( (response) => response.json() )
+    .then( (json) => {
+      if (json){
+        if (json.errors){
+          setErrors(json.errors)
+        }
+        if (json.id){
+          setRedirect(json.id)
+        }
+      }
+    })
+  }
+
   if (newPoll.options[newPoll.options.length - 1] !== ""){
     setNewPoll(
       {
@@ -47,7 +86,6 @@ const PollsNew = (props) => {
     )
   }
 
-
   let options = newPoll.options.map( (option, index) => {
     return (
       <li key={index} className="poll-option-item">
@@ -60,13 +98,19 @@ const PollsNew = (props) => {
 
   return (
     <div className="grid-padding-y">
+      {redirect ? <Redirect to={`/${redirect}`} /> : null}
       <div className="grid-x grid-padding-x cell align-center">
         <div className="primary cell small-12 medium-7">
           <div className="primary callout">
-            <form action="#" onSubmit={event => event.preventDefault()}>
+            <form action="/" onSubmit={handleSubmit}>
               <div className="grid-container">
                 <div className="grid-x grid-padding-x">
-                  <input className="poll-name-field cell small-12 medium-6 large-3 title big-input primary stealth-input" type="text" name="name" value={newPoll.name} autoFocus onChange={handleChange}/>
+                  <div className="tall cell grid-x grid-padding-x">
+                    <input className="poll-name-field cell small-12 medium-6 large-3 title big-input primary stealth-input" type="text" name="name" value={newPoll.name} autoFocus onChange={handleChange}/>
+                    <div className="cell small-12 medium-6 large-9">
+                      {errors.name ? errors.name.join(', ') : null}
+                    </div>
+                  </div>
                 </div>
 
                 <div className="grid-x grid-padding-x">
@@ -75,7 +119,10 @@ const PollsNew = (props) => {
                 <ul>
                   {options}
                 </ul>
-                <div className=" text-center">
+                <p className="errortext">
+                  {errors.candidates ? errors.candidates.join(', ') : null}
+                </p>
+                <div className="text-center">
                   <input type="submit" className="title button secondary" value="Create Poll" />
                 </div>
               </div>
