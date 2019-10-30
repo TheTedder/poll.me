@@ -6,7 +6,7 @@ class Api::V1::PollsController < ApplicationController
         Candidate.create(name: text, poll: poll)
       end
     else
-      render json: poll.errors
+      render json: {errors: poll.errors}
     end
   end
 

@@ -8,7 +8,6 @@ require("channels")
 import $ from 'jquery'
 import 'foundation-sites'
 
-
 import React from 'react'
 import { render } from 'react-dom'
 
