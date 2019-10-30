@@ -104,11 +104,13 @@ const PollsNew = (props) => {
           <div className="primary callout">
             <form action="/" onSubmit={handleSubmit}>
               <div className="grid-container">
-                <div className="grid-x grid-padding-x valign-center">
-                  <input className="poll-name-field cell small-12 medium-6 large-3 title big-input primary stealth-input" type="text" name="name" value={newPoll.name} autoFocus onChange={handleChange}/>
-                  <p className="errortext cell small-12 medium-6 large-9">
-                    {errors.name ? errors.name.join(", ") : null}
-                  </p>
+                <div className="grid-x grid-padding-x">
+                  <div className="tall cell grid-x grid-padding-x">
+                    <input className="poll-name-field cell small-12 medium-6 large-3 title big-input primary stealth-input" type="text" name="name" value={newPoll.name} autoFocus onChange={handleChange}/>
+                    <div className="cell small-12 medium-6 large-9">
+                      {errors.name ? errors.name.join(', ') : null}
+                    </div>
+                  </div>
                 </div>
 
                 <div className="grid-x grid-padding-x">
@@ -117,7 +119,10 @@ const PollsNew = (props) => {
                 <ul>
                   {options}
                 </ul>
-                <div className=" text-center">
+                <p className="errortext">
+                  {errors.candidates ? errors.candidates.join(', ') : null}
+                </p>
+                <div className="text-center">
                   <input type="submit" className="title button secondary" value="Create Poll" />
                 </div>
               </div>
