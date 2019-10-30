@@ -25,11 +25,9 @@ const PollsShow = (props) => {
     })
     .then( (response) => response.json() )
     .then( (json) => {
-      debugger
       setPoll(json.poll)
     })
   }, [])
-
   
   return (
     <div className="grid-padding-y">
