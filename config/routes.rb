@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   get '/new', to: 'homes#index'
+  get '/:id', to 'homes#index'
   get '/', to: 'homes#index'
 
   namespace :api do
