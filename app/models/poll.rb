@@ -1,9 +1,9 @@
 class Poll < ApplicationRecord
-  has_many :votes
+  has_many :candidates
 
   validates :name, presence: true
 
   def vote_count
-    return votes.count
+    candidates.sum{ |candidate| candidate.votes.count }
   end
 end
