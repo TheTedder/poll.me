@@ -29,6 +29,21 @@ const PollsNew = (props) => {
     }
   }
 
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    fetch('/', {
+      method: 'POST',
+      headers: new Headers(
+        {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      ),
+      body: JSON.stringify(newPoll),
+      credentials: 'same-origin'
+    })
+  }
+
   if (newPoll.options[newPoll.options.length - 1] !== ""){
     setNewPoll(
       {
@@ -63,7 +78,7 @@ const PollsNew = (props) => {
       <div className="grid-x grid-padding-x cell align-center">
         <div className="primary cell small-12 medium-7">
           <div className="primary callout">
-            <form action="#" onSubmit={event => event.preventDefault()}>
+            <form action="/" onSubmit={handleSubmit}>
               <div className="grid-container">
                 <div className="grid-x grid-padding-x">
                   <input className="poll-name-field cell small-12 medium-6 large-3 title big-input primary stealth-input" type="text" name="name" value={newPoll.name} autoFocus onChange={handleChange}/>
