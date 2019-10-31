@@ -25,7 +25,9 @@ const PollsShow = (props) => {
     })
     .then( (response) => response.json() )
     .then( (json) => {
-      setPoll(json.poll)
+      if (json.poll){
+        setPoll(json.poll)
+      }
     })
   }, [])
   
