@@ -1,6 +1,6 @@
 class VoteChannel < ApplicationCable::Channel
   def subscribed
-    stream_from "poll_#{params['token']}"
+    stream_for Link.find_by(slug: params['token'])
   end
 
   def unsubscribed
@@ -10,9 +10,6 @@ class VoteChannel < ApplicationCable::Channel
   def receive(data)
     link = Link.find_by(slug: params['token'])
     poll = link.poll
-    vote = Vote.new(poll: poll, candidate_id: data['candidate_id'])
-    if vote.save
-      ApplicationCable.server.broadcast("", { candidate_id: vote.canididate.id })
-    end
+    Vote.create(poll: poll, candidate_id: data['candidate_id'])
   end
 end
