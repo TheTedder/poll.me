@@ -42,6 +42,7 @@ const PollsNew = (props) => {
           'Content-Type': 'application/json'
         }
       ),
+      credentials: 'same-origin',
       body: JSON.stringify(
         {
           poll: newPoll

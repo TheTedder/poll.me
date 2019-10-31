@@ -15,7 +15,8 @@
  *= require_self
  */
  @import url('https://fonts.googleapis.com/css?family=Nunito&display=swap');
- 
+ @import 'settings';
+
  $my-white: #f2f2f2;
 
 .title {
@@ -51,4 +52,12 @@ input {
 
 .tall {
   line-height: 2.1rem;
+}
+
+.white {
+  color: $my-white;
+}
+
+.primary-faded {
+  background-color: scale-color($primary-color, $lightness: 50%);
 }
