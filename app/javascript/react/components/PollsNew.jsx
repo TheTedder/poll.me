@@ -62,8 +62,8 @@ const PollsNew = (props) => {
         if (json.errors){
           setErrors(json.errors)
         }
-        if (json.id){
-          setRedirect(json.id)
+        if (json.slug){
+          setRedirect(json.slug)
         }
       }
     })

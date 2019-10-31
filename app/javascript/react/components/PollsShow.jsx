@@ -11,7 +11,7 @@ const PollsShow = (props) => {
   )
 
   useEffect( () => {
-    fetch(`/api/v1/polls/${props.match.params.id}`, {
+    fetch(`/api/v1/links/${props.match.params.link}`, {
       headers: {
         'Accept': 'application/json'
       }
