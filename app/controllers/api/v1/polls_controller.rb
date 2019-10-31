@@ -8,6 +8,8 @@ class Api::V1::PollsController < ApplicationController
       if poll.valid?
         render json: {id: poll.id}
         return
+      else
+        poll.destroy
       end
     end
     render json: {errors: poll.errors}
