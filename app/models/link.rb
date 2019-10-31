@@ -1,6 +1,6 @@
 class Link < ApplicationRecord
   belongs_to :poll
-  #has_many :votes
+  has_many :votes
 
   validates :poll_id, presence: true
   validates :single_use, inclusion: { in: [true, false] }, allow_nil: true
