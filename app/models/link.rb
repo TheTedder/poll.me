@@ -5,4 +5,8 @@ class Link < ApplicationRecord
 
   validates :poll_id, presence: true
   validates :single_use, inclusion: { in: [true, false] }, allow_nil: true
+
+  def self.generate_unique_secure_token
+    SecureRandom.base58(6)
+  end
 end
