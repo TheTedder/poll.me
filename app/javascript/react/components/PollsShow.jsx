@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react'
+import consumer from "../../channels/consumer"
 
 const PollsShow = (props) => {
   const [poll, setPoll] = useState(
     {
-      id: null,
       name: '',
       description: '',
       candidates: []
     }
   )
+  const [canVote, setCanVote] = useState(true)
+  const [channel, setChannel] = useState({})
 
   useEffect( () => {
     fetch(`/api/v1/links/${props.match.params.link}`, {
@@ -30,13 +32,44 @@ const PollsShow = (props) => {
       }
     })
   }, [])
+
+  useEffect( () => {
+    if (poll.candidates.length > 0){
+      setChannel(consumer.subscriptions.create(
+        {
+          channel: "VoteChannel",
+          token: props.match.params['link']
+        },
+        {
+          connected: () => console.log("CONNECTED"),
+          disconnected: () => console.log("DISCONNECTED"),
+          received: (data) => {
+            console.log(data)
+            setCanVote(data.canVote)
+          }
+        }
+      ))
+    }
+  }, [poll])
   
+  const handleVote = (event) => {
+    event.preventDefault()
+    if (canVote){
+      channel.send(
+        {
+          candidate_id: event.currentTarget.getAttribute('candidateid')
+        }
+      )
+    }
+  }
+
   const candidates = poll.candidates.map( (candidate) => {
     return (
       <div className="grid-x grid-padding-x" key={candidate.id} candidateid={candidate.id} >
         <div className="cell small-12 medium-10">
-          <div className="primary-faded callout">
-            <h3 className="title" >{candidate.name}</h3>
+          <div className="primary-faded callout clearfix">
+            <h3 className="inline title" >{candidate.name}</h3>
+            <button type="button" className="inline float-right button" onClick={handleVote} candidateid={candidate.id}>Vote</button>
           </div>
         </div>
       </div>
@@ -47,7 +80,7 @@ const PollsShow = (props) => {
     <div className="grid-padding-y">
       <div className="grid-x grid-padding-x cell">
         <div className="cell small-12 medium-9 medium-offset-1">
-          <div className="callout">
+          <div className="secondary callout">
             <div className="grid-padding-y">
               <div className="cell">
                 <h2 className="title">{poll.name}</h2>

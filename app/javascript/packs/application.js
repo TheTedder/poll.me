@@ -4,7 +4,7 @@
 // that code so it'll be compiled.
 
 require("@rails/ujs").start()
-require("channels")
+require("../channels")
 import $ from 'jquery'
 import 'foundation-sites'
 
