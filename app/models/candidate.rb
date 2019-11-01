@@ -3,4 +3,8 @@ class Candidate < ApplicationRecord
   has_many :votes
 
   validates :name, presence: true
+
+  def vote_count
+    votes.count
+  end
 end

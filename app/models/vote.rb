@@ -14,6 +14,6 @@ class Vote < ApplicationRecord
   end
 
   def broadcast
-    ResultChannel.broadcast_to(self.link.poll, link_id: id)
+    ResultChannel.broadcast_to(self.link.poll, candidate_id: candidate.id)
   end
 end
