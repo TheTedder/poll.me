@@ -6,10 +6,10 @@ const PollsShow = (props) => {
     {
       name: '',
       description: '',
-      candidates: []
+      candidates: [],
     }
   )
-  const [canVote, setCanVote] = useState(true)
+  const [valid, setValid] = useState(null)
   const [channel, setChannel] = useState({})
 
   useEffect( () => {
@@ -27,8 +27,9 @@ const PollsShow = (props) => {
     })
     .then( (response) => response.json() )
     .then( (json) => {
-      if (json.poll){
-        setPoll(json.poll)
+      if (json.link){
+        setPoll(json.link.poll)
+        setValid(json.link.valid)
       }
     })
   }, [])
@@ -45,7 +46,7 @@ const PollsShow = (props) => {
           disconnected: () => console.log("DISCONNECTED"),
           received: (data) => {
             console.log(data)
-            setCanVote(data.canVote)
+            setValid(data.valid)
           }
         }
       ))
@@ -54,7 +55,7 @@ const PollsShow = (props) => {
   
   const handleVote = (event) => {
     event.preventDefault()
-    if (canVote){
+    if (valid){
       channel.send(
         {
           candidate_id: event.currentTarget.getAttribute('candidateid')
