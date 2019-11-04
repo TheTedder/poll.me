@@ -1,6 +1,6 @@
 class ResultChannel < ApplicationCable::Channel
   def subscribed
-    stream_for Poll.find(params['id'])
+    stream_from "result_#{params['id']}"
   end
 
   def unsubscribed
