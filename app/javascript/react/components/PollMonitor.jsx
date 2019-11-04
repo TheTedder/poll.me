@@ -39,7 +39,7 @@ const PollMonitor = (props) => {
       setChannel(consumer.subscriptions.create(
         {
           channel: "ResultChannel",
-          id: props.match.params['id']
+          id: props.match.params.id
         },
         {
           connected: () => console.log("CONNECTED"),
@@ -66,7 +66,7 @@ const PollMonitor = (props) => {
 
   let link = ''
   if (poll.links.length > 0){
-    link = `https://poll-me.herokuapp.com/${poll.links[0].slug}`
+    link = `https://${process.env.APP_URL}/${poll.links[0].slug}`
   }
 
   const candidates = poll.candidates.map( (candidate) => {

@@ -39,7 +39,7 @@ const PollsShow = (props) => {
       setChannel(consumer.subscriptions.create(
         {
           channel: "VoteChannel",
-          token: props.match.params['link']
+          token: props.match.params.link
         },
         {
           connected: () => console.log("CONNECTED"),

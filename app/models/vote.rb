@@ -14,6 +14,6 @@ class Vote < ApplicationRecord
   end
 
   def broadcast
-    ActionCable.server.broadcast("result_#{link.poll.id}", candidate_id: candidate.id)
+    ActionCable.server.broadcast("result_#{link.poll.id}", { candidate_id: candidate.id })
   end
 end
