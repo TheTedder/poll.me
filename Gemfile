@@ -41,3 +41,5 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem "foundation-rails", "~> 6.5.3"
 
 gem "active_model_serializers", "~> 0.10.10"
+
+gem "redis", "~> 4.1"
