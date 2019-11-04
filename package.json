@@ -6,6 +6,7 @@
     "@rails/actioncable": "^6.0.0-alpha",
     "@rails/ujs": "^6.0.0-alpha",
     "@rails/webpacker": "^4.0.7",
+    "actioncable": "^5.2.3",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "core-js": "^3.3.5",
     "foundation-sites": "^6.5.3",
