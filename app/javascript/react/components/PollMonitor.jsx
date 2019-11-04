@@ -64,6 +64,11 @@ const PollMonitor = (props) => {
     }
   }, [poll.name])
 
+  let link = ''
+  if (poll.links.length > 0){
+    link = `https://poll-me.herokuapp.com/${poll.links[0].slug}`
+  }
+
   const candidates = poll.candidates.map( (candidate) => {
     return (
       <div className="grid-x grid-padding-x" key={candidate.id} >
@@ -87,6 +92,16 @@ const PollMonitor = (props) => {
                 <h2 className="title">{poll.name}</h2>
               </div>
               <p>{poll.description}</p>
+              <div className="grid-x grid-padding-x">
+                <div className="cell small-12 medium-10">
+                  <div className="input-group">
+                    <input id="linkbox" className="input-group-field" type="text" value={link} readOnly/>
+                    <div className="input-group-button">
+                      <input type="submit" className="light-grey button" value="Copy" />
+                    </div>
+                  </div>
+                </div>                
+              </div>
               {candidates}
             </div>
           </div>
