@@ -9,6 +9,7 @@
     "actioncable": "^5.2.3",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "core-js": "^3.3.5",
+    "dotenv": "^8.2.0",
     "foundation-sites": "^6.5.3",
     "jquery": "^3.4.1",
     "prop-types": "^15.7.2",
