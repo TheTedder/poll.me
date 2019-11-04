@@ -82,6 +82,10 @@ const PollMonitor = (props) => {
     )
   })
 
+  const copy = (event) => {
+    navigator.clipboard.writeText(document.getElementById('linkbox').value)
+  }
+
   return (
     <div className="grid-padding-y">
       <div className="grid-x grid-padding-x cell">
@@ -97,7 +101,7 @@ const PollMonitor = (props) => {
                   <div className="input-group">
                     <input id="linkbox" className="input-group-field" type="text" value={link} readOnly/>
                     <div className="input-group-button">
-                      <input type="submit" className="light-grey button" value="Copy" />
+                      <input type="submit" className="light-grey button" value="Copy" onClick={copy}/>
                     </div>
                   </div>
                 </div>                
