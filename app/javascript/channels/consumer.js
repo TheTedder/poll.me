@@ -3,4 +3,4 @@
 
 import { createConsumer } from "@rails/actioncable"
 
-export default createConsumer()
+export default createConsumer(`ws://${process.env.APP_URL}:3000/cable`)
