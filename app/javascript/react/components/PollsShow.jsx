@@ -10,7 +10,6 @@ const PollsShow = (props) => {
     }
   )
   const [page, setPage] = useState(null)
-  const [channel, setChannel] = useState({})
 
   useEffect( () => {
     fetch(`/api/v1/links/${props.link}`, {
@@ -29,43 +28,32 @@ const PollsShow = (props) => {
     .then( (json) => {
       if (json.link){
         setPoll(json.link.poll)
-        //check if poll expired
+        //TODO: check if poll expired
         setPage('show')
       }
     })
   }, [])
-
-  useEffect( () => {
-    if (poll.candidates.length > 0){
-      setChannel(props.cable.subscriptions.create(
-        {
-          channel: "VoteChannel",
-          token: props.link
-        },
-        {
-          connected: () => console.log("CONNECTED"),
-          disconnected: () => console.log("DISCONNECTED"),
-          received: (data) => {
-            console.log(data)
-            if (!data.valid){
-              setPage('results')
-            } else{
-              setPage('thankyou')
-              props.cable.connection.consumer.disconnect()
-            }
-          }
-        }
-      ))
-    }
-  }, [poll])
   
   const handleVote = (event) => {
     event.preventDefault()
-    channel.send(
-      {
-        candidate_id: event.currentTarget.getAttribute('candidateid')
+    fetch('/api/v1/votes',{
+      credentials: 'same-origin',
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
       }
-    )
+    })
+    .then( (response) => {
+      if (response.ok){
+        return response
+      } else{
+        throw new Error(`${response.status} (${response.statusText})`)
+      }
+    })
+    .then( (response) => {
+      setPage('thankyou')
+    })
   }
 
   switch (page) {
