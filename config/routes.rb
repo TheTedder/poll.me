@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :polls, only: [:create, :show]
       resources :links, only: [:show]
+      resources :votes, only: [:create]
     end
   end
 end
