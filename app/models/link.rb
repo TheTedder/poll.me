@@ -9,4 +9,8 @@ class Link < ApplicationRecord
   def self.generate_unique_secure_token
     SecureRandom.base58(6)
   end
+
+  def valid
+    !single_use || votes.empty?
+  end
 end

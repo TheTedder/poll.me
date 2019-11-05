@@ -62,8 +62,8 @@ const PollsNew = (props) => {
         if (json.errors){
           setErrors(json.errors)
         }
-        if (json.slug){
-          setRedirect(json.slug)
+        if (json.id){
+          setRedirect(json.id)
         }
       }
     })
@@ -99,7 +99,7 @@ const PollsNew = (props) => {
 
   return (
     <div className="grid-padding-y">
-      {redirect ? <Redirect to={`/${redirect}`} /> : null}
+      {redirect ? <Redirect to={`/polls/${redirect}`} /> : null}
       <div className="grid-x grid-padding-x cell align-center">
         <div className="primary cell small-12 medium-7">
           <div className="primary callout">

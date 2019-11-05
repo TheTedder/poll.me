@@ -1,5 +1,5 @@
 class PollSerializer < ActiveModel::Serializer
-  attributes :id, :name, :description
+  attributes :name, :description
 
   has_many :candidates
 end

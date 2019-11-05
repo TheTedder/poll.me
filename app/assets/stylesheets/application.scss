@@ -61,3 +61,15 @@ input {
 .primary-faded {
   background-color: scale-color($primary-color, $lightness: 50%);
 }
+
+.inline {
+  display: inline;
+}
+
+#linkbox {
+  cursor: text;
+}
+
+body {
+  background-color: $secondary-color;
+}
