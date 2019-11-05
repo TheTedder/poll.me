@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import consumer from "../../channels/consumer"
 
 const PollsShow = (props) => {
   const [poll, setPoll] = useState(
@@ -10,10 +9,9 @@ const PollsShow = (props) => {
     }
   )
   const [valid, setValid] = useState(null)
-  const [channel, setChannel] = useState({})
 
   useEffect( () => {
-    fetch(`/api/v1/links/${props.match.params.link}`, {
+    fetch(`/api/v1/links/${props.link}`, {
       headers: {
         'Accept': 'application/json'
       }
@@ -36,10 +34,10 @@ const PollsShow = (props) => {
 
   useEffect( () => {
     if (poll.candidates.length > 0){
-      setChannel(consumer.subscriptions.create(
+      props.cable.subscriptions.create(
         {
           channel: "VoteChannel",
-          token: props.match.params.link
+          token: props.link
         },
         {
           connected: () => console.log("CONNECTED"),
@@ -49,7 +47,7 @@ const PollsShow = (props) => {
             setValid(data.valid)
           }
         }
-      ))
+      )
     }
   }, [poll])
   

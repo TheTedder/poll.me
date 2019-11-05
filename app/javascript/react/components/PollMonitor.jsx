@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import consumer from "../../channels/consumer"
 
 const PollMonitor = (props) => {
   const [poll, setPoll] = useState(
@@ -10,10 +9,9 @@ const PollMonitor = (props) => {
       candidates: []
     }
   )
-  const [channel, setChannel] = useState({})
 
   useEffect( () => {
-    fetch(`/api/v1/polls/${props.match.params.id}`, {
+    fetch(`/api/v1/polls/${props.pollId}`, {
       credentials: 'same-origin',
       headers: {
         'Accept': 'application/json'
@@ -36,10 +34,10 @@ const PollMonitor = (props) => {
 
   useEffect( () => {
     if (poll.candidates.length > 0){
-      setChannel(consumer.subscriptions.create(
+      props.cable.subscriptions.create(
         {
           channel: "ResultChannel",
-          id: props.match.params.id
+          id: props.pollId
         },
         {
           connected: () => console.log("CONNECTED"),
@@ -60,7 +58,7 @@ const PollMonitor = (props) => {
             )
           }
         }
-      ))
+      )
     }
   }, [poll.name])
 
