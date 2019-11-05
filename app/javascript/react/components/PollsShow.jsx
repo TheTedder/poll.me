@@ -10,6 +10,7 @@ const PollsShow = (props) => {
     }
   )
   const [page, setPage] = useState(null)
+  const [channel, setChannel] = useState({})
 
   useEffect( () => {
     fetch(`/api/v1/links/${props.link}`, {
@@ -36,7 +37,7 @@ const PollsShow = (props) => {
 
   useEffect( () => {
     if (poll.candidates.length > 0){
-      props.cable.subscriptions.create(
+      setChannel(props.cable.subscriptions.create(
         {
           channel: "VoteChannel",
           token: props.link
@@ -48,22 +49,23 @@ const PollsShow = (props) => {
             console.log(data)
             if (!data.valid){
               setPage('results')
+            } else{
+              setPage('thankyou')
+              props.cable.connection.consumer.disconnect()
             }
           }
         }
-      )
+      ))
     }
   }, [poll])
   
   const handleVote = (event) => {
     event.preventDefault()
-    props.cable.send(
+    channel.send(
       {
         candidate_id: event.currentTarget.getAttribute('candidateid')
       }
     )
-    props.cable.disconnect()
-    setPage('thankyou')
   }
 
   switch (page) {
