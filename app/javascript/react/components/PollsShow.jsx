@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import ThankYou from './ThankYou'
 
 const PollsShow = (props) => {
   const [poll, setPoll] = useState(
@@ -8,7 +9,7 @@ const PollsShow = (props) => {
       candidates: [],
     }
   )
-  const [valid, setValid] = useState(null)
+  const [page, setPage] = useState(null)
 
   useEffect( () => {
     fetch(`/api/v1/links/${props.link}`, {
@@ -27,7 +28,8 @@ const PollsShow = (props) => {
     .then( (json) => {
       if (json.link){
         setPoll(json.link.poll)
-        setValid(json.link.valid)
+        //check if poll expired
+        setPage('show')
       }
     })
   }, [])
@@ -44,7 +46,9 @@ const PollsShow = (props) => {
           disconnected: () => console.log("DISCONNECTED"),
           received: (data) => {
             console.log(data)
-            setValid(data.valid)
+            if (!data.valid){
+              setPage('results')
+            }
           }
         }
       )
@@ -53,45 +57,52 @@ const PollsShow = (props) => {
   
   const handleVote = (event) => {
     event.preventDefault()
-    if (valid){
-      channel.send(
-        {
-          candidate_id: event.currentTarget.getAttribute('candidateid')
-        }
-      )
-    }
+    props.cable.send(
+      {
+        candidate_id: event.currentTarget.getAttribute('candidateid')
+      }
+    )
+    props.cable.disconnect()
+    setPage('thankyou')
   }
 
-  const candidates = poll.candidates.map( (candidate) => {
-    return (
-      <div className="grid-x grid-padding-x" key={candidate.id} candidateid={candidate.id} >
-        <div className="cell small-12 medium-10">
-          <div className="primary-faded callout clearfix">
-            <h3 className="inline title" >{candidate.name}</h3>
-            <button type="button" className="inline float-right button" onClick={handleVote} candidateid={candidate.id}>Vote</button>
-          </div>
-        </div>
-      </div>
-    )
-  })
-
-  return (
-    <div className="grid-padding-y">
-      <div className="grid-x grid-padding-x cell">
-        <div className="cell small-12 medium-9 medium-offset-1">
-          <div className="secondary callout">
-            <div className="grid-padding-y">
-              <div className="cell">
-                <h2 className="title">{poll.name}</h2>
+  switch (page) {
+    case 'show':
+      const candidates = poll.candidates.map( (candidate) => {
+        return (
+          <div className="grid-x grid-padding-x" key={candidate.id} candidateid={candidate.id} >
+            <div className="cell small-12 medium-10">
+              <div className="primary-faded callout clearfix">
+                <h3 className="inline title" >{candidate.name}</h3>
+                <button type="button" className="inline float-right button" onClick={handleVote} candidateid={candidate.id}>Vote</button>
               </div>
-              <p>{poll.description}</p>
-              {candidates}
+            </div>
+          </div>
+        )
+      })
+
+      return (
+        <div className="grid-padding-y">
+          <div className="grid-x grid-padding-x cell">
+            <div className="cell small-12 medium-9 medium-offset-1">
+              <div className="secondary callout">
+                <div className="grid-padding-y">
+                  <div className="cell">
+                    <h2 className="title">{poll.name}</h2>
+                  </div>
+                  <p>{poll.description}</p>
+                  {candidates}
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  )
+      )
+    case 'thankyou':
+      return <ThankYou />
+    default:
+      return <div></div>
+  }
 }
 
 export default PollsShow
