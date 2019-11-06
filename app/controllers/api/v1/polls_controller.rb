@@ -1,6 +1,7 @@
 class Api::V1::PollsController < ApplicationController
   def create
     poll = Poll.new(poll_params)
+    poll.voting_deadline = Time.zone.iso8601(params['poll']['votingDeadline']) unless params['poll']['votingDeadline'].nil?
     if poll.save
       params['poll']['options'].each do |option|
         Candidate.create(name: option, poll: poll)

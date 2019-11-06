@@ -1,16 +1,45 @@
 import React, { useState } from 'react'
 import { Redirect } from 'react-router-dom'
+import _ from 'lodash'
 
 const PollsNew = (props) => {
   const [newPoll, setNewPoll] = useState(
     {
       name: "New Poll",
       description: "",
-      options: ["", ""]
+      options: ["", ""],
     }
   )
   const [errors, setErrors] = useState({})
+  const [votingDeadline, setVotingDeadline] = useState(
+    {
+      date: '',
+      time: ''
+    }
+  )
   const [redirect, setRedirect] = useState(null)
+  
+  const now = new Date()
+  const currentDate = `${now.getFullYear()}-${_.padStart(now.getMonth() + 1, 2, '0')}-${_.padStart(now.getDate(), 2, '0')}`
+
+  const setDateTime = (event) => {
+    setVotingDeadline(
+      {
+        ...votingDeadline,
+        [event.currentTarget.name]: event.currentTarget.value
+      }
+    )
+  }
+
+  const sign = (num) => {
+    return num >=0 ? '+' : '-'
+  }
+
+  const ISO8601 = (date, time) => {
+    let hours = - now.getTimezoneOffset() / 60
+    let offset = _.padStart(Math.abs(hours).toFixed(2).replace('.',':'),5,'0')
+    return `${date}T${time}:00${sign(hours)}${offset}`
+  }
 
   const handleChange = (event) => {
     if (event.currentTarget.name === "option"){
@@ -45,7 +74,10 @@ const PollsNew = (props) => {
       credentials: 'same-origin',
       body: JSON.stringify(
         {
-          poll: newPoll
+          poll: {
+            ...newPoll,
+            votingDeadline: votingDeadline.date !== '' &&  votingDeadline.time !== '' ? ISO8601(votingDeadline.date, votingDeadline.time) : null
+          }
         }
       )
     })
@@ -59,6 +91,7 @@ const PollsNew = (props) => {
     .then( (response) => response.json() )
     .then( (json) => {
       if (json){
+        console.log(json)
         if (json.errors){
           setErrors(json.errors)
         }
@@ -107,8 +140,8 @@ const PollsNew = (props) => {
               <div className="grid-container">
                 <div className="grid-x grid-padding-x">
                   <div className="tall cell grid-x grid-padding-x">
-                    <input className="poll-name-field cell small-12 medium-6 large-3 title big-input primary stealth-input" type="text" name="name" value={newPoll.name} autoFocus onChange={handleChange}/>
-                    <div className="cell small-12 medium-6 large-9">
+                    <input className="poll-name-field cell small-12 medium-6 large-4 title big-input primary stealth-input" type="text" name="name" value={newPoll.name} autoFocus onChange={handleChange}/>
+                    <div className="cell small-12 medium-6 large-8">
                       {errors.name ? errors.name.join(', ') : null}
                     </div>
                   </div>
@@ -117,6 +150,13 @@ const PollsNew = (props) => {
                 <div className="grid-x grid-padding-x">
                   <textarea className="poll-description-field cell large-9" name="description" value={newPoll.description} placeholder="description here" onChange={handleChange} />
                 </div>
+                
+                <div className="inline grid-x grid-margin-x">
+                  <p className="inline tall middle cell small-auto">Deadline (optional):</p>
+                  <input className="inline cell auto" type="date" name="date" value={votingDeadline.date} min={currentDate} onChange={setDateTime}/>
+                  <input className="inline cell auto" type="time" name="time" value={votingDeadline.time} onChange={setDateTime}/>
+                </div>
+
                 <ul>
                   {options}
                 </ul>
