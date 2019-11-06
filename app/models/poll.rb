@@ -8,12 +8,12 @@ class Poll < ApplicationRecord
   validate :valid_deadline
 
   def open?
-    return (voting_deadline.nil? || voting_deadline >= DateTime.now) && links.any?{ |link| link.valid }
+    return (voting_deadline.nil? || voting_deadline >= Time.zone.now) && links.any?{ |link| link.valid }
   end
 
   protected
   def valid_deadline
-    unless voting_deadline.nil? || voting_deadline >= DateTime.now
+    unless voting_deadline.nil? || (voting_deadline >= Time.zone.now)
       errors.add(:voting_deadline, 'must not be in the past')
     end
   end
