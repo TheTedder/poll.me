@@ -27,9 +27,12 @@ const PollsShow = (props) => {
     .then( (response) => response.json() )
     .then( (json) => {
       if (json.link){
-        setPoll(json.link.poll)
-        //TODO: check if poll expired
-        setPage('show')
+        if(json.link.poll.open){
+          setPoll(json.link.poll)
+          if(json.link.valid){
+            setPage('show')
+          }
+        } //TODO: else render results
       }
     })
   }, [])
@@ -81,14 +84,12 @@ const PollsShow = (props) => {
         <div className="grid-padding-y">
           <div className="grid-x grid-padding-x cell">
             <div className="cell small-12 medium-9 medium-offset-1">
-              <div className="secondary callout">
-                <div className="grid-padding-y">
-                  <div className="cell">
-                    <h2 className="title">{poll.name}</h2>
-                  </div>
-                  <p>{poll.description}</p>
-                  {candidates}
+              <div className="grid-padding-y">
+                <div className="cell">
+                  <h2 className="white title">{poll.name}</h2>
                 </div>
+                <p>{poll.description}</p>
+                {candidates}
               </div>
             </div>
           </div>
