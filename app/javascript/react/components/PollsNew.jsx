@@ -140,8 +140,8 @@ const PollsNew = (props) => {
               <div className="grid-container">
                 <div className="grid-x grid-padding-x">
                   <div className="tall cell grid-x grid-padding-x">
-                    <input className="poll-name-field cell small-12 medium-6 large-3 title big-input primary stealth-input" type="text" name="name" value={newPoll.name} autoFocus onChange={handleChange}/>
-                    <div className="cell small-12 medium-6 large-9">
+                    <input className="poll-name-field cell small-12 medium-6 large-4 title big-input primary stealth-input" type="text" name="name" value={newPoll.name} autoFocus onChange={handleChange}/>
+                    <div className="cell small-12 medium-6 large-8">
                       {errors.name ? errors.name.join(', ') : null}
                     </div>
                   </div>
@@ -150,10 +150,13 @@ const PollsNew = (props) => {
                 <div className="grid-x grid-padding-x">
                   <textarea className="poll-description-field cell large-9" name="description" value={newPoll.description} placeholder="description here" onChange={handleChange} />
                 </div>
-                <div>
-                  <input type="date" name="date" value={votingDeadline.date} min={currentDate} onChange={setDateTime}/>
-                  <input type="time" name="time" value={votingDeadline.time} onChange={setDateTime}/>
+                
+                <div className="inline grid-x grid-margin-x">
+                  <p className="inline tall middle cell small-auto">Deadline (optional):</p>
+                  <input className="inline cell auto" type="date" name="date" value={votingDeadline.date} min={currentDate} onChange={setDateTime}/>
+                  <input className="inline cell auto" type="time" name="time" value={votingDeadline.time} onChange={setDateTime}/>
                 </div>
+
                 <ul>
                   {options}
                 </ul>
