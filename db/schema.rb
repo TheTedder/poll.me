@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 2019_11_05_232753) do
     t.text "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.datetime "voting_deadline"
   end
 
   create_table "votes", force: :cascade do |t|
