@@ -77,3 +77,11 @@ input {
 body {
   background-color: $secondary-color;
 }
+
+div.top-bar {
+  background-color: scale-color($secondary-color, $lightness: 25%);
+}
+
+.app {
+  min-height: 100vh;
+}
