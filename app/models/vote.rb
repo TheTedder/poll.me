@@ -7,7 +7,7 @@ class Vote < ApplicationRecord
 
   validates :link_id, presence: true
   validates :link_id, uniqueness: true, if: -> { link.single_use }
-  validates :candidates, length: { minimum: 1 }, unless: -> { new_record? }
+  validates :rankings, length: { minimum: 1 }, unless: -> { new_record? }
   validate :poll_is_open
 
   protected
@@ -18,6 +18,10 @@ class Vote < ApplicationRecord
   end
 
   def broadcast
-    ActionCable.server.broadcast("result_#{poll.id}", { candidate_id: candidate.id })
+    data = Hash.new
+    rankings.each do |ranking|
+      data[ranking.candidate.id] = ranking.candidate.vote_count
+    end
+    ActionCable.server.broadcast("result_#{poll.id}", data)
   end
 end
