@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_07_192919) do
+ActiveRecord::Schema.define(version: 2019_11_07_214453) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,8 @@ ActiveRecord::Schema.define(version: 2019_11_07_192919) do
     t.bigint "poll_id", null: false
     t.boolean "single_use", default: false
     t.string "slug"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["poll_id"], name: "index_links_on_poll_id"
     t.index ["slug"], name: "index_links_on_slug", unique: true
   end
@@ -49,6 +51,8 @@ ActiveRecord::Schema.define(version: 2019_11_07_192919) do
 
   create_table "votes", force: :cascade do |t|
     t.bigint "link_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["link_id"], name: "index_votes_on_link_id"
   end
 
