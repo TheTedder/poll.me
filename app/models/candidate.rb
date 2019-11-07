@@ -5,6 +5,6 @@ class Candidate < ApplicationRecord
   validates :name, presence: true
 
   def vote_count
-    votes.count
+    votes.sum{ |vote| 1.fdiv(vote.rank) }
   end
 end
