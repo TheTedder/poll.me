@@ -139,11 +139,9 @@ const PollsNew = (props) => {
             <form action="/" onSubmit={handleSubmit}>
               <div className="grid-container">
                 <div className="grid-x grid-padding-x">
-                  <div className="tall cell grid-x grid-padding-x">
-                    <input className="poll-name-field cell small-12 medium-6 large-4 title big-input primary stealth-input" type="text" name="name" value={newPoll.name} autoFocus onChange={handleChange}/>
-                    <div className="cell small-12 medium-6 large-8">
-                      {errors.name ? errors.name.join(', ') : null}
-                    </div>
+                  <input className="poll-name-field cell shrink small-12 large-9 title big-input primary stealth-input" type="text" name="name" value={newPoll.name} autoFocus onChange={handleChange}/>
+                  <div className="cell">
+                    {errors.name ? errors.name.join(', ') : null}
                   </div>
                 </div>
 
