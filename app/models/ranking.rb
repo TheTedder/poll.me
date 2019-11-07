@@ -5,11 +5,12 @@ class Ranking < ApplicationRecord
 
   validates :vote_id, presence: true
   validates :candidate_id, presence: true
-  validates :rank, numericality: { greater_than_or_equal_to: 1, only_integer: true }
+  validates :rank, numericality: { greater_than_or_equal_to: 1, only_integer: true }, uniqueness: { scope: :vote_id }
   validate candidate_belongs_to_poll
   validate valid_rank
 
   def rank_available?(num)
+    return true if num == 1
     1...num.all?{ |rank| Ranking.exists?({ rank: rank, vote: vote }) }
   end
 

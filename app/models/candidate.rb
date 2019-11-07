@@ -1,10 +1,10 @@
 class Candidate < ApplicationRecord
   belongs_to :poll
-  has_many :votes
+  has_many :rankings
 
   validates :name, presence: true
 
   def vote_count
-    votes.sum{ |vote| 1.fdiv(vote.rank) }
+    rankings.sum{ |ranking| 1.fdiv(ranking.rank) }
   end
 end
