@@ -7,9 +7,12 @@ const PollsShow = (props) => {
       name: '',
       description: '',
       candidates: [],
+      open: null,
+      votes_per_person: null
     }
   )
   const [page, setPage] = useState(null)
+  const [votes, setVotes] = useState([])
 
   useEffect( () => {
     fetch(`/api/v1/links/${props.link}`, {
@@ -38,42 +41,53 @@ const PollsShow = (props) => {
   }, [])
   
   const handleVote = (event) => {
-    event.preventDefault()
-    fetch('/api/v1/votes',{
-      credentials: 'same-origin',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(
-        {
-          token: props.link,
-          candidateId: event.currentTarget.getAttribute('candidateid')
-        }
-      )
-    })
-    .then( (response) => {
-      if (response.ok){
-        return response
-      } else{
-        throw new Error(`${response.status} (${response.statusText})`)
-      }
-    })
-    .then( (response) => {
-      setPage('thankyou')
-    })
+    setCandidates(
+      [...candidates, event.currentTarget.candidateid]
+    )
   }
+
+  useEffect( () => {
+    if (candidates.length >= poll.votes_per_person){
+      fetch('/api/v1/votes',{
+        credentials: 'same-origin',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(
+          {
+            token: props.link,
+            candidates: candidates
+          }
+        )
+      })
+      .then( (response) => {
+        if (response.ok){
+          return response
+        } else{
+          throw new Error(`${response.status} (${response.statusText})`)
+        }
+      })
+      .then( (response) => {
+        setPage('thankyou')
+      })
+    }
+  }, [candidates.length])
 
   switch (page) {
     case 'show':
       const candidates = poll.candidates.map( (candidate) => {
+        let button
+        if (!candidates.includes(candidate.id)){
+          button = <button type="button" className="inline float-right button" onClick={handleVote} candidateid={candidate.id}>Vote</button>
+        }
         return (
           <div className="grid-x grid-padding-x" key={candidate.id} candidateid={candidate.id} >
             <div className="cell small-12 medium-10">
               <div className="primary-faded callout clearfix">
                 <h3 className="inline title" >{candidate.name}</h3>
-                <button type="button" className="inline float-right button" onClick={handleVote} candidateid={candidate.id}>Vote</button>
+                {button}
               </div>
             </div>
           </div>
