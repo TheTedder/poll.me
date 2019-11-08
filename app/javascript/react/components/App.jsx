@@ -11,7 +11,7 @@ const App = (props) => {
   const cable = consumer
   return (
     <Router>
-      <div className="cell shrink top-bar">
+      <div className="cell shrink top-bar cell-block-container">
         <div className="top-bar-left">
           <Link to="/"><h1 className="title white">poll.me</h1></Link>
         </div>

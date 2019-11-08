@@ -86,27 +86,21 @@ const PollMonitor = (props) => {
   }
 
   return (
-    <div className="grid-padding-y">
-      <div className="grid-x grid-padding-x cell">
-        <div className="cell small-12 medium-9 medium-offset-1">
-          <div className="grid-padding-y">
-            <div className="cell">
-              <h2 className="title">{poll.name}</h2>
+    <div className="grid-x grid-padding-x">
+      <div className="cell small-12 medium-9 medium-offset-1">
+        <h2 className="title">{poll.name}</h2>
+        <p>{poll.description}</p>
+        <div className="grid-x grid-padding-x">
+          <div className="cell small-12 medium-10">
+            <div className="input-group">
+              <input id="linkbox" className="input-group-field" type="text" value={link} readOnly/>
+              <div className="input-group-button">
+                <input type="submit" className="light-grey button" value="Copy" onClick={copy}/>
+              </div>
             </div>
-            <p>{poll.description}</p>
-            <div className="grid-x grid-padding-x">
-              <div className="cell small-12 medium-10">
-                <div className="input-group">
-                  <input id="linkbox" className="input-group-field" type="text" value={link} readOnly/>
-                  <div className="input-group-button">
-                    <input type="submit" className="light-grey button" value="Copy" onClick={copy}/>
-                  </div>
-                </div>
-              </div>                
-            </div>
-            {candidates}
-          </div>
+          </div>                
         </div>
+        {candidates}
       </div>
     </div>
   )
