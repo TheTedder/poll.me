@@ -74,7 +74,7 @@ const PollMonitor = (props) => {
         <div className="cell small-12 medium-10">
           <div className="primary-faded callout clearfix">
             <h3 className="inline title" >{candidate.name}</h3>
-            <div className="inline float-right text-right">{candidate.vote_count}</div>
+            <h3 className="inline float-right text-right">{candidate.vote_count}</h3>
           </div>
         </div>
       </div>
@@ -89,24 +89,22 @@ const PollMonitor = (props) => {
     <div className="grid-padding-y">
       <div className="grid-x grid-padding-x cell">
         <div className="cell small-12 medium-9 medium-offset-1">
-          <div className="secondary callout">
-            <div className="grid-padding-y">
-              <div className="cell">
-                <h2 className="title">{poll.name}</h2>
-              </div>
-              <p>{poll.description}</p>
-              <div className="grid-x grid-padding-x">
-                <div className="cell small-12 medium-10">
-                  <div className="input-group">
-                    <input id="linkbox" className="input-group-field" type="text" value={link} readOnly/>
-                    <div className="input-group-button">
-                      <input type="submit" className="light-grey button" value="Copy" onClick={copy}/>
-                    </div>
-                  </div>
-                </div>                
-              </div>
-              {candidates}
+          <div className="grid-padding-y">
+            <div className="cell">
+              <h2 className="title">{poll.name}</h2>
             </div>
+            <p>{poll.description}</p>
+            <div className="grid-x grid-padding-x">
+              <div className="cell small-12 medium-10">
+                <div className="input-group">
+                  <input id="linkbox" className="input-group-field" type="text" value={link} readOnly/>
+                  <div className="input-group-button">
+                    <input type="submit" className="light-grey button" value="Copy" onClick={copy}/>
+                  </div>
+                </div>
+              </div>                
+            </div>
+            {candidates}
           </div>
         </div>
       </div>
