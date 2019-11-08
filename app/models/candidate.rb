@@ -5,11 +5,6 @@ class Candidate < ApplicationRecord
   validates :name, presence: true
 
   def vote_count
-    #rankings.sum{ |ranking| ranking.worth }
-    sum = 0
-    rankings.each do |ranking|
-      sum += ranking.worth
-    end
-    return sum
+    rankings.sum{ |ranking| ranking.worth }
   end
 end
