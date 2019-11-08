@@ -41,45 +41,49 @@ const PollsShow = (props) => {
   }, [])
   
   const handleVote = (event) => {
-    setCandidates(
-      [...candidates, event.currentTarget.candidateid]
+    setVotes(
+      [...votes, Number.parseInt(event.currentTarget.getAttribute('candidateid'))]
     )
   }
 
   useEffect( () => {
-    if (candidates.length >= poll.votes_per_person){
-      fetch('/api/v1/votes',{
-        credentials: 'same-origin',
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(
-          {
-            token: props.link,
-            candidates: candidates
+    if (poll.votes_per_person !== null){
+      if (votes.length >= poll.votes_per_person){
+        fetch('/api/v1/votes',{
+          credentials: 'same-origin',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(
+            {
+              token: props.link,
+              vote: {
+                candidates: votes
+              }
+            }
+          )
+        })
+        .then( (response) => {
+          if (response.ok){
+            return response
+          } else{
+            throw new Error(`${response.status} (${response.statusText})`)
           }
-        )
-      })
-      .then( (response) => {
-        if (response.ok){
-          return response
-        } else{
-          throw new Error(`${response.status} (${response.statusText})`)
-        }
-      })
-      .then( (response) => {
-        setPage('thankyou')
-      })
+        })
+        .then( (response) => {
+          setPage('thankyou')
+        })
+      }
     }
-  }, [candidates.length])
+  }, [votes.length])
 
   switch (page) {
     case 'show':
       const candidates = poll.candidates.map( (candidate) => {
         let button
-        if (!candidates.includes(candidate.id)){
+        if (!votes.includes(Number.parseInt(candidate.id))){
           button = <button type="button" className="inline float-right button" onClick={handleVote} candidateid={candidate.id}>Vote</button>
         }
         return (

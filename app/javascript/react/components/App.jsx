@@ -11,11 +11,11 @@ const App = (props) => {
   const cable = consumer
   return (
     <Router>
-      <navbar className="cell shrink top-bar">
+      <div className="cell shrink top-bar">
         <div className="top-bar-left">
           <Link to="/"><h1 className="title white">poll.me</h1></Link>
         </div>
-      </navbar>
+      </div>
       <div id="content" className="cell auto cell-block-container">
         <Switch>
           <Route exact path="/" component={PollsIndex} />

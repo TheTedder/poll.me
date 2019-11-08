@@ -44,12 +44,13 @@ const PollMonitor = (props) => {
           disconnected: () => console.log("DISCONNECTED"),
           received: (data) => {
             console.log(data)
-            const index = poll.candidates.findIndex( (candidate) => {
-              return candidate.id === data.candidate_id
-            })
-            console.log("index: " + index.toString())
             let newCandidates = poll.candidates
-            newCandidates[index].vote_count = (newCandidates[index].vote_count) + 1
+            for (const [id, votes] of Object.entries(data)){
+              const index = poll.candidates.findIndex( (candidate) => {
+                return candidate.id === Number.parseInt(id)
+              })
+              newCandidates[index].vote_count = votes
+            }
             setPoll(
               {
                 ...poll,
