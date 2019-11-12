@@ -47,15 +47,21 @@ const PollMonitor = (props) => {
           received: (data) => {
             console.log(data)
             let newCandidates = poll.candidates
-            for (const [id, votes] of Object.entries(data)){
+            for (const [id, votes] of Object.entries(data.rankings)){
               const index = poll.candidates.findIndex( (candidate) => {
                 return candidate.id === Number.parseInt(id)
               })
               newCandidates[index].vote_count = votes
             }
+            let newLinks = poll.links
+            const index = poll.links.findIndex( (link) => {
+              return link.id === data.linkId
+            })
+            newLinks[index].valid = data.valid
             setPoll(
               {
                 ...poll,
+                links: newLinks,
                 candidates: newCandidates
               }
             )
