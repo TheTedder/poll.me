@@ -7,9 +7,12 @@ const PollsShow = (props) => {
       name: '',
       description: '',
       candidates: [],
+      open: null,
+      votes_per_person: null
     }
   )
   const [page, setPage] = useState(null)
+  const [votes, setVotes] = useState([])
 
   useEffect( () => {
     fetch(`/api/v1/links/${props.link}`, {
@@ -38,58 +41,78 @@ const PollsShow = (props) => {
   }, [])
   
   const handleVote = (event) => {
-    event.preventDefault()
-    fetch('/api/v1/votes',{
-      credentials: 'same-origin',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(
-        {
-          token: props.link,
-          candidateId: event.currentTarget.getAttribute('candidateid')
-        }
-      )
-    })
-    .then( (response) => {
-      if (response.ok){
-        return response
-      } else{
-        throw new Error(`${response.status} (${response.statusText})`)
+    setVotes(
+      [...votes, Number.parseInt(event.currentTarget.getAttribute('candidateid'))]
+    )
+  }
+  useEffect( () => {
+    if (poll.votes_per_person !== null){
+      if (votes.length >= poll.votes_per_person){
+        fetch('/api/v1/votes',{
+          credentials: 'same-origin',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify(
+            {
+              token: props.link,
+              vote: {
+                candidates: votes
+              }
+            }
+          )
+        })
+        .then( (response) => {
+          if (response.ok){
+            return response
+          } else{
+            throw new Error(`${response.status} (${response.statusText})`)
+          }
+        })
+        .then( (response) => {
+          setPage('thankyou')
+        })
       }
-    })
-    .then( (response) => {
-      setPage('thankyou')
-    })
+    }
+  }, [votes.length])
+
+  let instructions
+  if (poll.votes_per_person > 1){
+  instructions = <p className="lead">Choose {poll.votes_per_person} options in order of preference.</p>
   }
 
   switch (page) {
     case 'show':
       const candidates = poll.candidates.map( (candidate) => {
+        let button
+        if (!votes.includes(Number.parseInt(candidate.id))){
+          button = <button type="button" className="inline float-right button title" onClick={handleVote} candidateid={candidate.id}>Vote</button>
+        }
         return (
           <div className="grid-x grid-padding-x" key={candidate.id} candidateid={candidate.id} >
             <div className="cell small-12 medium-10">
-              <div className="primary-faded callout clearfix">
+              <div className="heightfix small poll-show-callout callout clearfix">
                 <h3 className="inline title" >{candidate.name}</h3>
-                <button type="button" className="inline float-right button" onClick={handleVote} candidateid={candidate.id}>Vote</button>
+                {button}
               </div>
             </div>
           </div>
         )
       })
-
+      
       return (
         <div className="grid-padding-y">
           <div className="grid-x grid-padding-x cell">
             <div className="cell small-12 medium-9 medium-offset-1">
               <div className="grid-padding-y">
                 <div className="cell">
-                  <h2 className="white title">{poll.name}</h2>
+                  <h2 className="title">{poll.name}</h2>
                 </div>
-                <p>{poll.description}</p>
+                <p className="lead">{poll.description}</p>
                 {candidates}
+                {instructions}
               </div>
             </div>
           </div>

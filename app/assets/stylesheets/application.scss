@@ -19,6 +19,10 @@
 
  $my-white: #f2f2f2;
 
+h1 {
+  font-weight: bolder;
+}
+
 .title {
   font-family: 'Nunito', sans-serif;
   font-weight: bold;
@@ -27,7 +31,6 @@
 input.stealth-input {
   border: none;
   background-color: inherit;
-  color: $my-white;
   outline: none;
 }
 
@@ -58,10 +61,6 @@ input {
   color: $my-white;
 }
 
-.primary-faded {
-  background-color: scale-color($primary-color, $lightness: 50%);
-}
-
 .inline {
   display: inline;
 }
@@ -70,10 +69,17 @@ input {
   display: inline-block;
 }
 
-#linkbox {
-  cursor: text;
+body {
+  background-color: scale-color($secondary-color, $lightness: 35%);
+  height: 100vh;
 }
 
-body {
+.top-bar {
   background-color: $secondary-color;
+}
+
+footer {
+  width: 100%;
+  background-color: scale-color($primary-color, $lightness: -20%, $saturation: -15%);
+  padding: 0.7rem;
 }

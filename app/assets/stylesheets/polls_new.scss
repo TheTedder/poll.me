@@ -5,7 +5,6 @@
 @include add-foundation-colors;
 
 textarea.poll-description-field {
-  background-color: scale-color($primary-color, $lightness: 50%);
   outline: none;
 }
 
@@ -27,4 +26,8 @@ input.poll-option-field::placeholder {
 
 li.poll-option-item {
   font-size: 1.5rem;
+}
+
+.poll-new-callout {
+  background-color: #ebe0c9;
 }

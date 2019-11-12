@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react'
 
+import LinkBoxContainer from './LinkBoxContainer'
+
 const PollMonitor = (props) => {
   const [poll, setPoll] = useState(
     {
+      id: null,
       name: '',
       description: '',
       links: [],
@@ -44,15 +47,22 @@ const PollMonitor = (props) => {
           disconnected: () => console.log("DISCONNECTED"),
           received: (data) => {
             console.log(data)
-            const index = poll.candidates.findIndex( (candidate) => {
-              return candidate.id === data.candidate_id
-            })
-            console.log("index: " + index.toString())
             let newCandidates = poll.candidates
-            newCandidates[index].vote_count = (newCandidates[index].vote_count) + 1
+            for (const [id, votes] of Object.entries(data.rankings)){
+              const index = poll.candidates.findIndex( (candidate) => {
+                return candidate.id === Number.parseInt(id)
+              })
+              newCandidates[index].vote_count = votes
+            }
+            let newLinks = poll.links
+            const index = poll.links.findIndex( (link) => {
+              return link.id === data.linkId
+            })
+            newLinks[index].valid = data.valid
             setPoll(
               {
                 ...poll,
+                links: newLinks,
                 candidates: newCandidates
               }
             )
@@ -62,52 +72,65 @@ const PollMonitor = (props) => {
     }
   }, [poll.name])
 
-  let link = ''
-  if (poll.links.length > 0){
-    link = `https://${process.env.APP_URL}/${poll.links[0].slug}`
+  const createLink = (event) => {
+    fetch(`/api/v1/polls/${poll.id}/links`, {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(
+        {
+          link: {
+            single_use: true
+          }
+        }
+      )
+    })
+    .then( (response) => {
+      if (response.ok){
+        return response
+      } else{
+        throw new Error(`${response.status} (${response.statusText})`)
+      }
+    })
+    .then( (response) => response.json())
+    .then( (json) => {
+      setPoll(
+        {
+          ...poll,
+          links: poll.links.concat(json.link)
+        }
+      )
+    })
   }
 
   const candidates = poll.candidates.map( (candidate) => {
     return (
       <div className="grid-x grid-padding-x" key={candidate.id} >
         <div className="cell small-12 medium-10">
-          <div className="primary-faded callout clearfix">
+          <div className="candidate-monitor-callout callout clearfix">
             <h3 className="inline title" >{candidate.name}</h3>
-            <div className="inline float-right text-right">{candidate.vote_count}</div>
+            <h3 className="inline float-right text-right">{candidate.vote_count}</h3>
           </div>
         </div>
       </div>
     )
   })
 
-  const copy = (event) => {
-    navigator.clipboard.writeText(document.getElementById('linkbox').value)
-  }
-
   return (
-    <div className="grid-padding-y">
-      <div className="grid-x grid-padding-x cell">
-        <div className="cell small-12 medium-9 medium-offset-1">
-          <div className="secondary callout">
-            <div className="grid-padding-y">
-              <div className="cell">
-                <h2 className="title">{poll.name}</h2>
-              </div>
-              <p>{poll.description}</p>
-              <div className="grid-x grid-padding-x">
-                <div className="cell small-12 medium-10">
-                  <div className="input-group">
-                    <input id="linkbox" className="input-group-field" type="text" value={link} readOnly/>
-                    <div className="input-group-button">
-                      <input type="submit" className="light-grey button" value="Copy" onClick={copy}/>
-                    </div>
-                  </div>
-                </div>                
-              </div>
-              {candidates}
-            </div>
+    <div className="grid-x grid-padding-x">
+      <div className="cell small-12 medium-9 medium-offset-1">
+        <h2 className="title">{poll.name}</h2>
+        <p className="lead">{poll.description}</p>
+        <LinkBoxContainer links={poll.links} />
+        <div className="grid-x">
+          <div className="cell small-12 medium-10">
+            <button type="button" className="white title large secondary button float-center" onClick={createLink} >Generate Private Link</button>
           </div>
         </div>
+        {candidates}
       </div>
     </div>
   )

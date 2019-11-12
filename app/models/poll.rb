@@ -11,6 +11,10 @@ class Poll < ApplicationRecord
     return (voting_deadline.nil? || voting_deadline >= Time.zone.now) && links.any?{ |link| link.valid }
   end
 
+  def votes_per_person
+    Math.log2(candidates.count).ceil
+  end
+
   protected
   def valid_deadline
     unless voting_deadline.nil? || (voting_deadline >= Time.zone.now)
