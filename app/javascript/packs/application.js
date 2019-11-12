@@ -22,7 +22,7 @@ import App from '../react/components/App'
 
 document.addEventListener('DOMContentLoaded', () => {
   let reactElement = document.getElementById('app')
-  render(<App />, reactElement)
+  render(<App />, reactElement, () => {
+    $(document).foundation()
+  })
 })
-
-$(document).foundation()

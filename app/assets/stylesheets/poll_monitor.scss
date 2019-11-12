@@ -1,0 +1,9 @@
+@import 'foundation';
+@import 'settings';
+@import 'util/util';
+@import 'util/color';
+@include add-foundation-colors;
+
+.candidate-monitor-callout {
+  background-color: #ebe0c9;
+}

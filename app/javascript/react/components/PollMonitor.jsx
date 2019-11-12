@@ -72,7 +72,7 @@ const PollMonitor = (props) => {
     return (
       <div className="grid-x grid-padding-x" key={candidate.id} >
         <div className="cell small-12 medium-10">
-          <div className="primary-faded callout clearfix">
+          <div className="candidate-monitor-callout callout clearfix">
             <h3 className="inline title" >{candidate.name}</h3>
             <h3 className="inline float-right text-right">{candidate.vote_count}</h3>
           </div>
@@ -89,7 +89,7 @@ const PollMonitor = (props) => {
     <div className="grid-x grid-padding-x">
       <div className="cell small-12 medium-9 medium-offset-1">
         <h2 className="title">{poll.name}</h2>
-        <p>{poll.description}</p>
+        <p className="lead">{poll.description}</p>
         <div className="grid-x grid-padding-x">
           <div className="cell small-12 medium-10">
             <div className="input-group">

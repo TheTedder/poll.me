@@ -45,7 +45,6 @@ const PollsShow = (props) => {
       [...votes, Number.parseInt(event.currentTarget.getAttribute('candidateid'))]
     )
   }
-
   useEffect( () => {
     if (poll.votes_per_person !== null){
       if (votes.length >= poll.votes_per_person){
@@ -79,17 +78,22 @@ const PollsShow = (props) => {
     }
   }, [votes.length])
 
+  let instructions
+  if (poll.votes_per_person > 1){
+  instructions = <p className="lead">Choose {poll.votes_per_person} options in order of preference.</p>
+  }
+
   switch (page) {
     case 'show':
       const candidates = poll.candidates.map( (candidate) => {
         let button
         if (!votes.includes(Number.parseInt(candidate.id))){
-          button = <button type="button" className="inline float-right button" onClick={handleVote} candidateid={candidate.id}>Vote</button>
+          button = <button type="button" className="inline float-right button title" onClick={handleVote} candidateid={candidate.id}>Vote</button>
         }
         return (
           <div className="grid-x grid-padding-x" key={candidate.id} candidateid={candidate.id} >
             <div className="cell small-12 medium-10">
-              <div className="primary-faded callout clearfix">
+              <div className="heightfix small poll-show-callout callout clearfix">
                 <h3 className="inline title" >{candidate.name}</h3>
                 {button}
               </div>
@@ -97,17 +101,18 @@ const PollsShow = (props) => {
           </div>
         )
       })
-
+      
       return (
         <div className="grid-padding-y">
           <div className="grid-x grid-padding-x cell">
             <div className="cell small-12 medium-9 medium-offset-1">
               <div className="grid-padding-y">
                 <div className="cell">
-                  <h2 className="white title">{poll.name}</h2>
+                  <h2 className="title">{poll.name}</h2>
                 </div>
-                <p>{poll.description}</p>
+                <p className="lead">{poll.description}</p>
                 {candidates}
+                {instructions}
               </div>
             </div>
           </div>

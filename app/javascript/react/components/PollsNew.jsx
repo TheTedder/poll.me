@@ -135,7 +135,7 @@ const PollsNew = (props) => {
       {redirect ? <Redirect to={`/polls/${redirect}`} /> : null}
       <div className="grid-x grid-padding-x cell align-center">
         <div className="primary cell small-12 medium-7">
-          <div className="primary callout">
+          <div className="poll-new-callout callout">
             <form action="/" onSubmit={handleSubmit}>
               <div className="grid-container">
                 <div className="grid-x grid-padding-x">
@@ -162,7 +162,7 @@ const PollsNew = (props) => {
                   {errors.candidates ? errors.candidates.join(', ') : null}
                 </p>
                 <div className="text-center">
-                  <input type="submit" className="title button secondary" value="Create Poll" />
+                  <input type="submit" className="title button primary" value="Create Poll" />
                 </div>
               </div>
             </form>
