@@ -5,6 +5,7 @@ import LinkBoxContainer from './LinkBoxContainer'
 const PollMonitor = (props) => {
   const [poll, setPoll] = useState(
     {
+      id: null,
       name: '',
       description: '',
       links: [],
@@ -71,6 +72,40 @@ const PollMonitor = (props) => {
     }
   }, [poll.name])
 
+  const createLink = (event) => {
+    fetch(`/api/v1/polls/${poll.id}/links`, {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(
+        {
+          link: {
+            single_use: true
+          }
+        }
+      )
+    })
+    .then( (response) => {
+      if (response.ok){
+        return response
+      } else{
+        throw new Error(`${response.status} (${response.statusText})`)
+      }
+    })
+    .then( (response) => response.json())
+    .then( (json) => {
+      setPoll(
+        {
+          ...poll,
+          links: poll.links.concat(json.link)
+        }
+      )
+    })
+  }
+
   const candidates = poll.candidates.map( (candidate) => {
     return (
       <div className="grid-x grid-padding-x" key={candidate.id} >
@@ -90,6 +125,11 @@ const PollMonitor = (props) => {
         <h2 className="title">{poll.name}</h2>
         <p className="lead">{poll.description}</p>
         <LinkBoxContainer links={poll.links} />
+        <div className="grid-x">
+          <div className="cell small-12 medium-10">
+            <button type="button" className="white title large secondary button float-center" onClick={createLink} >Generate Private Link</button>
+          </div>
+        </div>
         {candidates}
       </div>
     </div>
