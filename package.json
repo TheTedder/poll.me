@@ -30,7 +30,6 @@
     "jest": "^24.9.0",
     "jest-environment-enzyme": "^7.1.1",
     "jest-enzyme": "^7.1.1",
-    "webpack-dev-server": "^3.9.0"
     "webpack-dev-server": "^3.11.2"
   },
   "scripts": {
