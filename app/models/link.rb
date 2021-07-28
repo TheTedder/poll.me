@@ -1,14 +1,10 @@
 class Link < ApplicationRecord
   belongs_to :poll
   has_many :votes
-  has_secure_token :slug
+  has_secure_token :slug, length: 6
 
   validates :poll_id, presence: true
   validates :single_use, inclusion: { in: [true, false] }, allow_nil: true
-
-  def self.generate_unique_secure_token
-    SecureRandom.base58(6)
-  end
 
   def valid
     !single_use || votes.empty?
