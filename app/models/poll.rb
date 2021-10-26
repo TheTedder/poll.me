@@ -1,4 +1,5 @@
 class Poll < ApplicationRecord
+  enum  privacy: [:public, :private]
   has_many :candidates
   has_many :links
   has_many :votes, through: :candidates
