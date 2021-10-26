@@ -2,6 +2,9 @@ require "active_support"
 require "active_support/core_ext/object/blank"
 
 class Api::V1::PollsController < ApplicationController
+  @@LIMIT_DEFAULT = 12
+  @@LIMIT_MAX = 1024
+
   def create
     poll = Poll.new(poll_params)
     poll.voting_deadline = Time.zone.iso8601(params['poll']['votingDeadline'].presence)
@@ -24,7 +27,7 @@ class Api::V1::PollsController < ApplicationController
   end
 
   def index
-    render json: Poll.all.select(:name, :description, :voting_deadline).filter {|poll| poll.open?}
+    render json: Poll.public.limit([params['limit'].presence || @@LIMIT_DEFAULT, @@LIMIT_MAX].min).order("COALESCE(voting_deadline, created_at), DESC")
   end
 
   private
