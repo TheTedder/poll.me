@@ -20,6 +20,10 @@ class Api::V1::PollsController < ApplicationController
     render json: Poll.find(params['id']), serializer: PollMonitorSerializer
   end
 
+  def index
+    render json: Poll.all.select(:name, :description, :voting_deadline).filter {|poll| poll.open?}
+  end
+
   private
   def poll_params
     params.require(:poll).permit(:name, :description)
