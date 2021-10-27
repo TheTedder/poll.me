@@ -27,7 +27,7 @@ class Api::V1::PollsController < ApplicationController
   end
 
   def index
-    render json: Poll.public.limit([params['limit'].presence || @@LIMIT_DEFAULT, @@LIMIT_MAX].min).order("COALESCE(voting_deadline, created_at), DESC")
+    render json: Poll.public.limit([params['limit'].presence || @@LIMIT_DEFAULT, @@LIMIT_MAX].min).order("COALESCE(voting_deadline, created_at), DESC").offset(params['offset'] || 0)
   end
 
   private
